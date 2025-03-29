@@ -1,2 +1,3 @@
 server/.venv
+server/SillyBus/__pycache__
 server/SillyBus/__pycache__/*
