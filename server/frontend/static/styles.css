@@ -1,36 +1,44 @@
 body {
     display: flex;
-    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
-    background-color: #f4f4f4;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
     text-align: center;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
 h1 {
-    font-size: 70px;
-    font-weight: 600;
-    background-image: linear-gradient(to left, #ff6ec4, #7873f5);
+    font-size: 3.5rem;
+    font-weight: 700;
+    background-image: linear-gradient(135deg, #2b4c7e, #567ebb);
     color: transparent;
     background-clip: text;
     -webkit-background-clip: text;
+    margin-bottom: 2rem;
+    letter-spacing: -0.5px;
 }
 
 .uploadContainer {
-    width: 50%;
-    height: 50%;
+    width: 90%;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: #feff9c;
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease;
+}
+
+.uploadContainer:hover {
+    transform: translateY(-5px);
 }
 
 .file {
@@ -41,20 +49,24 @@ h1 {
 }
 
 .file-input label {
-    display: block;
-    position: relative;
-    width: 200px;
-    height: 50px;
-    border-radius: 25px;
-    background: linear-gradient(40deg, #ff6ec4, #7873f5);
-    box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 220px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #2b4c7e, #567ebb);
     color: #fff;
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 0.95rem;
     cursor: pointer;
-    transition: transform .2s ease-out;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(43, 76, 126, 0.2);
+}
+
+.file-input label:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(43, 76, 126, 0.25);
 }
 
 #pdfInput {
@@ -65,20 +77,59 @@ h1 {
 }
 
 .file-name {
-    position: absolute;
-    bottom: -35px;
-    left: 10px;
-    font-size: 0.85rem;
-    color: #555;
+    font-size: 0.9rem;
+    color: #4a5568;
+    margin: 1rem 0;
+    white-space: pre-line;
 }
 
-input:hover+label,
-input:focus+label {
-    transform: scale(1.02);
+.button-19 {
+    appearance: none;
+    background: linear-gradient(135deg, #2b4c7e, #567ebb);
+    border: none;
+    border-radius: 12px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 14px 24px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    width: auto;
+    min-width: 180px;
+    height: 48px;
+    box-shadow: 0 4px 15px rgba(43, 76, 126, 0.2);
+    margin-top: 1rem;
 }
 
-/* Adding an outline to the label on focus */
-input:focus+label {
-    outline: 1px solid #000;
-    outline: -webkit-focus-ring-color auto 2px;
+.button-19:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(43, 76, 126, 0.25);
+}
+
+.button-19:active {
+    transform: translateY(1px);
+}
+
+.button-19:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    .uploadContainer {
+        width: 85%;
+        padding: 1.5rem;
+    }
+    
+    .button-19 {
+        width: 100%;
+    }
 }

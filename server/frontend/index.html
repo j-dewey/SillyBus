@@ -20,9 +20,17 @@
         <div class="file-input">
             <input type="file" id="pdfInput" accept="application/pdf" multiple="multiple">
             <label for="pdfInput">Select files</label>
-            <p class="file-name"></p>
         </div>
-        <button onclick="uploadFiles()">Upload</button>
+        <p class="file-name"></p>
+        <button onclick="uploadFiles()" role="button" class="button-19" role="button">Upload</button>
+    </div>
+
+    <div id="g_id_onload" data-client_id="1" data-context="signin" data-ux_mode="popup" data-login_uri="1"
+        data-auto_select="true" data-itp_support="true">
+    </div>
+
+    <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline" data-text="signin_with"
+        data-size="large" data-logo_alignment="left">
     </div>
 
     <script src="{% static 'scripts.js' %}"></script>

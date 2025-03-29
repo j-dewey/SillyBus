@@ -29,15 +29,22 @@ function uploadFiles() {
 }
 
 // list pdfs
-const file = document.querySelector('#file');
-file.addEventListener('change', (e) => {
-    // Get the selected file
-    const [file] = e.target.files;
-    // Get the file name and size
-    const { name: fileName, size } = file;
-    // Convert size in bytes to kilo bytes
-    const fileSize = (size / 1000).toFixed(2);
-    // Set the text content
-    const fileNameAndSize = `${fileName} - ${fileSize}KB`;
-    document.querySelector('.file-name').textContent = fileNameAndSize;
+const fileInput = document.querySelector('#pdfInput');
+fileInput.addEventListener('change', (e) => {
+    console.log("Files added");
+
+    // Get the selected files
+    const files = e.target.files;
+
+    // Get the element where you want to display the filenames
+    const fileNameParagraph = document.querySelector('.file-name');
+
+    // Clear the existing content before adding new filenames
+    fileNameParagraph.innerHTML = '';
+
+    // Loop through each file and add the filename with a line break
+    for (const file of files) {
+        const fileName = file.name;
+        fileNameParagraph.innerHTML += `${fileName}<br>`;
+    }
 });
