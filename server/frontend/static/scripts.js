@@ -23,12 +23,19 @@ function uploadFiles() {
         method: 'POST',
         body: formData,
     })
-        .then(response => response.json())
-        .then(data => {
-            console.log("Success:", data);
+        .then(response => {
+            if (response.ok) {
+                console.log("Files uploaded successfully");
+                // Clear the form after successful upload
+                input.value = '';
+                fileContainer.innerHTML = '';
+            } else {
+                throw new Error('Upload failed');
+            }
         })
         .catch((error) => {
             console.error("Error:", error);
+            alert("Error uploading file(s). Please try again.");
         });
 }
 
