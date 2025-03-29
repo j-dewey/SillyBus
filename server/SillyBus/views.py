@@ -1,17 +1,18 @@
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.utils.http import MultiValueDict
-from django.views.generic.base import TemplateResponse
+from django.views.generic.base import HttpResponse, TemplateResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from .forms import FileUploadForm
+from django.views.i18n import JsonResponse
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def root(request):
     cntxt = {}
     return TemplateResponse(request, 'index.html', cntxt)
 
 def happy_upload(request):
-    cntxt = {}
-    return TemplateResponse(request, 'index.html', cntxt)
+    return HttpResponse(status=204)
 
 @csrf_exempt
 def file_upload(request):
