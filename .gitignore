@@ -1,3 +1,4 @@
 server/.venv
 server/SillyBus/__pycache__
 server/SillyBus/__pycache__/*
+server/db.sqlite3
