@@ -2,7 +2,6 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.views.generic.base import HttpResponse, TemplateResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from django.views.i18n import JsonResponse
 from dotenv import load_dotenv
 
 load_dotenv()
