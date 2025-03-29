@@ -2,6 +2,8 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.views.generic.base import HttpResponse, TemplateResponse
 from django.views.decorators.csrf import csrf_exempt
 
+from .parse import parse_file
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -21,5 +23,7 @@ def file_upload(request):
         print(files)
         for name, file in files.items():
             print("Handling file upload...")
+            parsed = parse_file(file)
+            print(parsed)
 
     return happy_upload(request)
