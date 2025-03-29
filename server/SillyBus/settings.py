@@ -51,10 +51,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'SillyBus.urls'
 
+FRONTEND_DIR = 'frontend'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            FRONTEND_DIR
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -115,7 +118,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = FRONTEND_DIR + '/static/'
+STATICFILES_DIRS = [
+    FRONTEND_DIR + '/static/'
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
