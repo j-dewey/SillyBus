@@ -21,5 +21,8 @@ body {
 }
 
 #pdfInput {
-    padding: 10px;
+    display: flex;
+    text-align: center;
+    background-color: #f4f4f4;
+    padding: 4px;
 }

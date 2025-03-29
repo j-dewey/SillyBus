@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    {% csrf_token %}
     <div class="uploadContainer">
         <input type="file" id="pdfInput" accept="application/pdf" multiple="multiple">
         <button onclick="uploadFiles()">Upload</button>
