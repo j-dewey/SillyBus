@@ -13,8 +13,15 @@
 
 <body>
     {% csrf_token %}
+
+    <h1>SillyBus</h1>
+    <h2>A simple way to sync due dates with your Google Calander</h2>
     <div class="uploadContainer">
-        <input type="file" id="pdfInput" accept="application/pdf" multiple="multiple">
+        <div class="file-input">
+            <input type="file" id="pdfInput" accept="application/pdf" multiple="multiple">
+            <label for="pdfInput">Select files</label>
+            <p class="file-name"></p>
+        </div>
         <button onclick="uploadFiles()">Upload</button>
     </div>
 
