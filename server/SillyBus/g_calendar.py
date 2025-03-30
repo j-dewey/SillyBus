@@ -12,25 +12,35 @@ SCOPES = [
     "https://www.googleapis.com/auth/tasks"
 ]
 
+TASK_SERVICE: None | Any = None
+
+def init_service():
+    global TASK_SERVICE
+    if TASK_SERVICE: return
+    flow = InstalledAppFlow.from_client_secrets_file(
+        "client_secret.json", SCOPES
+    )
+    creds = flow.run_local_server(port=50125)  # Running on port 0
+    TASK_SERVICE = build('tasks', 'v1', credentials=creds)
+
 # returns start, end
 def format_date(date: str) -> tuple[str, str]:
     month_day = date[5:10]
     return (f"2025-{month_day}T00:00:00-00:00", f"2025-{month_day}23:59:59+59:59")
 
 def load_to_calendar(to_load: dict[str, Any], user_data):
-    creds = Credentials(token=user_data)
-    service = build('tasks', 'v1', credentials=creds)
+    'refresh_token, token_uri, client_id, and client_secret.'
+    if not TASK_SERVICE: return
+    print(to_load)
     course: str = to_load['parent']
     assignments: list[dict[str,str]] = to_load['tasks']
-
+    print('loaded credentials')
     # Create the task list
-    task_list = service.tasklists().insert(body={ 'title': course }).execute()
+    task_list = TASK_SERVICE.tasklists().insert(body={ 'title': course }).execute()
     # Add tasks to the task list
-    created_tasks = self._add_tasks_to_list(task_list['id'], data['tasks'])
-
+    created_tasks = []
+    print('loaded task list')
     for t in assignments:
-        name = course + ' / ' + t['title']
-
         # Format the due date properly for the API
         due_date = datetime.fromisoformat(t['dueDate'].replace('-05:00', '-0500'))
         formatted_due = due_date.strftime("%Y-%m-%dT00:00:00.000Z")
@@ -41,6 +51,6 @@ def load_to_calendar(to_load: dict[str, Any], user_data):
             'status': 'needsAction'
         }
 
-        new_task = service.tasks().insert(tasklist=t['title'], body=task_body).execute()
+        new_task = TASK_SERVICE.tasks().insert(tasklist=task_list['id'], body=task_body).execute()
         print(f"Added task: {new_task['title']} (Due: {new_task.get('due', 'No due date')})")
         created_tasks.append(new_task)

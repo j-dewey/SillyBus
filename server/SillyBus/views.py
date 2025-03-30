@@ -12,7 +12,7 @@ import json
 import os
 
 from .parse import parse_file
-from .g_calendar import load_to_calendar
+from .g_calendar import init_service, load_to_calendar
 
 load_dotenv()
 
@@ -29,32 +29,33 @@ def file_upload(request):
         return HttpResponse(status=401)
     if request.method == "POST":
         files: dict[str, InMemoryUploadedFile ] = request.FILES.dict()
-        print(f"files: {files.items()}")
+        init_service()
         for name, file in files.items():
-            print("Handling file upload...")
             parsed = parse_file(file)
             for resp in parsed:
                 str_content = resp['message']['content']
-                print("Raw content:", str_content)
-                
+
                 # Try to find the actual JSON boundaries
                 try:
                     start_idx = str_content.find('{')
                     end_idx = str_content.rfind('}') + 1
                     json_content = str_content[start_idx:end_idx]
-                    
+
                     # Debug the JSON content
                     lines = json_content.split('\n')
-                        
+
                     if len(json_content) > 741:
                         context_start = max(0, 741 - 20)
                         context_end = min(len(json_content), 741 + 20)
-                        
-                    
+
+
                     # Try to clean the JSON before parsing
                     cleaned_json = json_content.replace('\n', ' ').replace('\r', '')
                     content = json.loads(cleaned_json)
-                    load_to_calendar(content, user)
+                    try:
+                        load_to_calendar(content, user)
+                    except Exception as e:
+                        pass
                 except json.JSONDecodeError as e:
                     print(f"\nJSON Error: {e}")
                     print(f"Error position: {e.pos}")
