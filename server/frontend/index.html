@@ -16,12 +16,14 @@
     <h2>A simple way to sync due dates with your Google Calander</h2>
     <div class="uploadContainer">
         <div class="file-input">
-            <input type="file" id="pdfInput" accept="application/pdf" multiple="multiple">
-            <label for="pdfInput">Select files</label>
+            <input type="file" id="pdfInput" accept="application/pdf">
+            <label for="pdfInput">Select a file</label>
         </div>
         <p class="file-name"></p>
-        <div class="loader" id="uploadLoader"></div>
-        <button onclick="uploadFiles()" role="button" class="button-19" role="button">Upload</button>
+        <div class="button-container">
+            <button onclick="uploadFiles()" role="button" class="button-19">Upload</button>
+            <div class="spinner" id="uploadSpinner"></div>
+        </div>
     </div>
 
     {% if not request.session.user_data %}

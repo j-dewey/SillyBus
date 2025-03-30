@@ -1,18 +1,9 @@
 function uploadFiles() {
-    console.log("UPLOADING FILES")
     const input = document.getElementById("pdfInput");
     const fileContainer = document.querySelector('.file-name');
     const fileItems = fileContainer.querySelectorAll('.file-item');
-    const loader = document.getElementById('uploadLoader');
-    console.log("Found all stuff")
-    
-    // Check if user is not signed in by looking for the sign-in message
-    const signInMessage = document.getElementById('requestForSignIn');
-    console.log(signInMessage)
-    if (signInMessage && signInMessage.textContent.includes('please sign in')) {
-        alert("Please sign in with Google before uploading files.");
-        return;
-    }
+    const spinner = document.getElementById('uploadSpinner');
+    const uploadButton = document.querySelector('.button-19');
 
     if (input.files.length === 0) {
         alert("Please select at least one PDF file.");
@@ -30,8 +21,10 @@ function uploadFiles() {
         formData.append(`color_${index}`, color);
     });
 
-    // Show loading spinner
-    loader.style.display = 'block';
+    // Show spinner and disable button
+    spinner.style.display = 'block';
+    uploadButton.classList.add('disabled');
+    uploadButton.disabled = true;
 
     fetch('/upload/', {
         method: 'POST',
@@ -52,8 +45,10 @@ function uploadFiles() {
             alert("Error uploading file(s). Please try again.");
         })
         .finally(() => {
-            // Hide loading spinner when done (success or error)
-            loader.style.display = 'none';
+            // Hide spinner and enable button
+            spinner.style.display = 'none';
+            uploadButton.classList.remove('disabled');
+            uploadButton.disabled = false;
         });
 }
 
