@@ -74,7 +74,6 @@ def auth_receiver(request):
     """
     Google calls this URL after the user has signed in with their Google account.
     """
-    print('Inside')
     token = request.POST['credential']
 
     try:
@@ -87,7 +86,6 @@ def auth_receiver(request):
     # In a real app, I'd also save any new user here to the database.
     # You could also authenticate the user here using the details from Google (https://docs.djangoproject.com/en/4.2/topics/auth/default/#how-to-log-a-user-in)
     request.session['user_data'] = user_data
-    print('redirecting...')
     return redirect('/')
 
 def sign_out(request):
