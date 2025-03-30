@@ -23,25 +23,27 @@
         <button onclick="uploadFiles()" role="button" class="button-19" role="button">Upload</button>
     </div>
 
+    {% if not request.session.user_data %}
     <h2>Before uploading your syllabi, please sign in with your Google account</h2>
-    
     <div id="g_id_onload"
         data-client_id="748616539320-opf8icfemd44vq0kgrio42o5n1ds8g71.apps.googleusercontent.com"
         data-context="signin"
         data-ux_mode="redirect"
         data-login_uri="http://localhost:8000/auth-receiver"
-        data-auto_select="true"
-        data-itp_support="true">
+        data-auto_prompt="false">
     </div>
 
     <div class="g_id_signin"
         data-type="standard"
-        data-shape="pill"
-        data-theme="outline"
-        data-text="signin_with"
         data-size="large"
+        data-theme="outline"
+        data-text="sign_in_with"
+        data-shape="rectangular"
         data-logo_alignment="left">
     </div>
+    {% else %}
+    <h2>Signed in with Google <span class="checkmark">✓</span></h2>
+    {% endif %}
     
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="{% static 'scripts.js' %}"></script>
