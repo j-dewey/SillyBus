@@ -2,6 +2,9 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.views.generic.base import HttpResponse, TemplateResponse
 from django.views.decorators.csrf import csrf_exempt
 import os
+
+from .parse import parse_file
+
 from django.shortcuts import render, redirect
 from google.oauth2 import id_token
 from google.auth.transport import requests
@@ -52,10 +55,9 @@ def auth_receiver(request):
     # In a real app, I'd also save any new user here to the database.
     # You could also authenticate the user here using the details from Google (https://docs.djangoproject.com/en/4.2/topics/auth/default/#how-to-log-a-user-in)
     request.session['user_data'] = user_data
-
-    return redirect('sign_in')
+    print('redirecting...')
+    return redirect('/')
 
 def sign_out(request):
     del request.session['user_data']
     return redirect('sign_in')
-
