@@ -42,7 +42,7 @@ function uploadFiles() {
         })
         .catch((error) => {
             console.error("Error:", error);
-            alert("Error uploading file(s). Please try again and make sure that all files are a syllabus");
+            alert("Please sign in with your Google account before uploading files.");
         })
         .finally(() => {
             // Hide spinner and enable button
@@ -79,7 +79,6 @@ const distinctColors = [
 // list pdfs
 const fileInput = document.querySelector('#pdfInput');
 fileInput.addEventListener('change', (e) => {
-    console.log("Files added");
 
     // Get the selected files
     const files = e.target.files;
