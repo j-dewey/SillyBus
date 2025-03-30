@@ -34,6 +34,7 @@ Needed envimroment variablse include
   - https://\< host \>:8000
   - https://\< host \>:50125
 5. Finally, from **Data Access > Add or Remove Scope** extend scope to include Google Tasks.
+  - "https://www.googleapis.com/auth/tasks"
 
 ## Use Case
 A student uploads their syllabi and the due dates are synced with their Google Calendar. The alternative that many students face is manually adding the due dates to their calendar, which is time-consuming and error-prone as well as extremely boring.
