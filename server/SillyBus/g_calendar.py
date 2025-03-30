@@ -42,7 +42,10 @@ def load_to_calendar(to_load: dict[str, Any], user_data):
     print('loaded task list')
     for t in assignments:
         # Format the due date properly for the API
-        due_date = datetime.fromisoformat(t['dueDate'].replace('-05:00', '-0500'))
+        try:
+            due_date = datetime.fromisoformat(t['dueDate'].replace('-05:00', '-0500'))
+        except KeyError:
+            due_date = datetime.fromisoformat(t['due_date'].replace('-05:00', '-0500'))
         formatted_due = due_date.strftime("%Y-%m-%dT00:00:00.000Z")
 
         task_body = {

@@ -56,6 +56,7 @@ def file_upload(request):
                         load_to_calendar(content, user)
                     except Exception as e:
                         pass
+
                 except json.JSONDecodeError as e:
                     print(f"\nJSON Error: {e}")
                     print(f"Error position: {e.pos}")
