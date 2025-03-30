@@ -27,7 +27,6 @@ def file_upload(request):
         user  = session['user_data']
     except KeyError:
         return HttpResponse(status=401)
-    print("FILE IS BEING UPLOADED")
     if request.method == "POST":
         files: dict[str, InMemoryUploadedFile ] = request.FILES.dict()
         print(f"files: {files.items()}")
@@ -45,22 +44,16 @@ def file_upload(request):
                     json_content = str_content[start_idx:end_idx]
                     
                     # Debug the JSON content
-                    print("\nJSON content by line:")
                     lines = json_content.split('\n')
-                    for i, line in enumerate(lines):
-                        print(f"Line {i+1}: {line}")
                         
-                    print("\nCharacters around error position (line 30, char 741):")
                     if len(json_content) > 741:
                         context_start = max(0, 741 - 20)
                         context_end = min(len(json_content), 741 + 20)
-                        print(f"Context: ...{json_content[context_start:context_end]}...")
-                        print(f"Position: {' ' * (23 + min(20, 741-context_start))}^")
+                        
                     
                     # Try to clean the JSON before parsing
                     cleaned_json = json_content.replace('\n', ' ').replace('\r', '')
                     content = json.loads(cleaned_json)
-                    print("Successfully parsed JSON:", content)
                     load_to_calendar(content, user)
                 except json.JSONDecodeError as e:
                     print(f"\nJSON Error: {e}")

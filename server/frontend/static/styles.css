@@ -127,9 +127,13 @@ h1 {
     padding: 0;
     border: none;
     border-radius: 6px;
-    cursor: pointer;
     background-color: transparent;
     flex-shrink: 0;
+}
+
+.color-picker:disabled {
+    opacity: 1;
+    cursor: default;
 }
 
 .color-picker::-webkit-color-swatch-wrapper {

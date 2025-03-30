@@ -105,6 +105,8 @@ fileInput.addEventListener('change', (e) => {
         colorPicker.type = 'color';
         colorPicker.value = distinctColors[index % distinctColors.length]; // Cycle through distinct colors
         colorPicker.className = 'color-picker';
+        colorPicker.disabled = true; // Make it non-interactive
+        colorPicker.style.pointerEvents = 'none'; // Prevent all mouse interactions
         
         fileInfo.appendChild(fileName);
         fileInfo.appendChild(colorPicker);
