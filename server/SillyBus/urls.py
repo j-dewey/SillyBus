@@ -22,4 +22,7 @@ urlpatterns = [
     path('',  views.root),
     path('admin/', admin.site.urls),
     path('upload/', views.file_upload),
+    path('sign-out', views.sign_out, name='sign_out'),
+    path('auth-receiver', views.auth_receiver, name='auth_receiver'),
+    path('sign-in', views.sign_in, name='sign_in'),
 ]
