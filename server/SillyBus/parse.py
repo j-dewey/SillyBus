@@ -12,6 +12,7 @@ import shutil
 load_dotenv()
 
 def parse_file(file: InMemoryUploadedFile) -> list[dict[str, Any]]:
+    print(file)
     key = env.get("KEYFORCONVERT")
     convertapi.api_credentials = key
 

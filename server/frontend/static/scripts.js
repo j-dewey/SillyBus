@@ -37,12 +37,12 @@ function uploadFiles() {
                 input.value = '';
                 fileContainer.innerHTML = '';
             } else {
-                throw new Error('Upload failed');
+                throw new Error('Upload failed. Please ensure that all files are a syllabus.');
             }
         })
         .catch((error) => {
             console.error("Error:", error);
-            alert("Error uploading file(s). Please try again.");
+            alert("Error uploading file(s). Please try again and make sure that all files are a syllabus");
         })
         .finally(() => {
             // Hide spinner and enable button
