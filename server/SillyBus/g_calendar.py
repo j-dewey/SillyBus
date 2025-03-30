@@ -5,8 +5,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 import json
-import os
-import tempfile
+from datetime import datetime
 from typing import Any
 
 SCOPES = [
@@ -23,8 +22,25 @@ def load_to_calendar(to_load: dict[str, Any], user_data):
     service = build('tasks', 'v1', credentials=creds)
     course: str = to_load['parent']
     assignments: list[dict[str,str]] = to_load['tasks']
-    task_list = service.tasklists()
+
+    # Create the task list
+    task_list = service.tasklists().insert(body={ 'title': course }).execute()
+    # Add tasks to the task list
+    created_tasks = self._add_tasks_to_list(task_list['id'], data['tasks'])
+
     for t in assignments:
         name = course + ' / ' + t['title']
-        due = format_date(t['dueDate'])
-        print(f"t: {name}, due: {due}")
+
+        # Format the due date properly for the API
+        due_date = datetime.fromisoformat(t['dueDate'].replace('-05:00', '-0500'))
+        formatted_due = due_date.strftime("%Y-%m-%dT00:00:00.000Z")
+
+        task_body = {
+            'title': t['title'],
+            'due': formatted_due,
+            'status': 'needsAction'
+        }
+
+        new_task = service.tasks().insert(tasklist=t['title'], body=task_body).execute()
+        print(f"Added task: {new_task['title']} (Due: {new_task.get('due', 'No due date')})")
+        created_tasks.append(new_task)
