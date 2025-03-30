@@ -18,20 +18,21 @@ def parse_file(file: InMemoryUploadedFile):
     with open(converted_txt_path, 'r', encoding='utf-8') as f:
         extracted_text = f.read()
 
+    print(extracted_text)
     url = "https://api.perplexity.ai/chat/completions"
 
     payload = {
         "model": "sonar",
         "messages": [
-            {"role": "user", "content": "find the important dates in this syllabus and output in jason files with these keys: 1. parent:the name of the class 2. tasks: all the important dates. with title and due date, the due date should in format RFC3339. Only give me the final json format, no other things\n{extracted_text}"}
+            {"role": "user", "content": f"find the important dates in this syllabus and output in JSON files with these keys: 1. parent:the name of the class 2. tasks: all the important dates. with title and due date, the due date should in format RFC3339. Only output the final json format, no other things{extracted_text}"}
         ],
-        "max_tokens": 2000
+        "max_tokens": 1000
     }
+    key = env.get('KEYFORPERP') 
     headers = {
-        "Authorization": f"Bearer {env.get("KEYFORPERP")}", 
+        "Authorization": f"Bearer {key}", 
         "Content-Type": "application/json"
     }
 
     response = requests.post(url, json=payload, headers=headers)
-    print(response.json())
-parse_file()
+    return(response.json())

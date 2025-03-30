@@ -24,6 +24,8 @@ def file_upload(request):
         print(files)
         for name, file in files.items():
             print("Handling file upload...")
+            parsed = parse_file(file)
+            print(parsed)
 
     return happy_upload(request)
 
