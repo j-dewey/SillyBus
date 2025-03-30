@@ -3,7 +3,9 @@ function uploadFiles() {
     const input = document.getElementById("pdfInput");
     const fileContainer = document.querySelector('.file-name');
     const fileItems = fileContainer.querySelectorAll('.file-item');
-    console.log("Found all stuuf")
+    const loader = document.getElementById('uploadLoader');
+    console.log("Found all stuff")
+    
     // Check if user is not signed in by looking for the sign-in message
     const signInMessage = document.getElementById('requestForSignIn');
     console.log(signInMessage)
@@ -17,7 +19,6 @@ function uploadFiles() {
         return;
     }
 
-
     const formData = new FormData();
 
     // Get all files and their colors
@@ -28,6 +29,9 @@ function uploadFiles() {
         formData.append(`file_${index}`, file);
         formData.append(`color_${index}`, color);
     });
+
+    // Show loading spinner
+    loader.style.display = 'block';
 
     fetch('/upload/', {
         method: 'POST',
@@ -46,6 +50,10 @@ function uploadFiles() {
         .catch((error) => {
             console.error("Error:", error);
             alert("Error uploading file(s). Please try again.");
+        })
+        .finally(() => {
+            // Hide loading spinner when done (success or error)
+            loader.style.display = 'none';
         });
 }
 

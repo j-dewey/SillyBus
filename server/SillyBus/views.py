@@ -39,6 +39,7 @@ def file_upload(request):
                 back_pad = 4
                 str_content =  resp['message']['content']
                 content = json.loads( str_content[front_pad:-back_pad] )
+                print(content)
                 load_to_calendar(content, user)
 
     return HttpResponse(status=204)
