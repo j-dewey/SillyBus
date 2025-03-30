@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from dotenv import load_dotenv
 from os import environ as env
@@ -9,7 +11,7 @@ import shutil
 
 load_dotenv()
 
-def parse_file(file: InMemoryUploadedFile):
+def parse_file(file: InMemoryUploadedFile) -> list[dict[str, Any]]:
     key = env.get("KEYFORCONVERT")
     convertapi.api_credentials = key
 
@@ -49,7 +51,6 @@ def parse_file(file: InMemoryUploadedFile):
         }
 
         response = requests.post(url, json=payload, headers=headers)
-        return response.json()
 
     finally:
         # Clean up temporary files in a try-except block to handle any permission issues
@@ -58,3 +59,5 @@ def parse_file(file: InMemoryUploadedFile):
                 shutil.rmtree(temp_dir, ignore_errors=True)
         except Exception as e:
             print(f"Warning: Could not clean up temporary files: {e}")
+
+    return response.json()['choices']

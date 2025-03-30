@@ -2,14 +2,17 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.views.generic.base import HttpResponse, TemplateResponse
 from django.contrib.sessions.backends.db import SessionStore
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render, redirect
+
+from google.oauth2 import id_token
+from google.auth.transport import requests
+
+from dotenv import load_dotenv
+import json
 import os
 
 from .parse import parse_file
-
-from django.shortcuts import render, redirect
-from google.oauth2 import id_token
-from google.auth.transport import requests
-from dotenv import load_dotenv
+from .g_calendar import load_to_calendar
 
 load_dotenv()
 
@@ -30,7 +33,13 @@ def file_upload(request):
         for name, file in files.items():
             print("Handling file upload...")
             parsed = parse_file(file)
-            print(parsed)
+            for resp in parsed:
+                # data is stored as ```json\n{<actual json>}\n```
+                front_pad = 8
+                back_pad = 4
+                str_content =  resp['message']['content']
+                content = json.loads( str_content[front_pad:-back_pad] )
+                load_to_calendar(content, user)
 
     return HttpResponse(status=204)
 
