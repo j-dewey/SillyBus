@@ -13,13 +13,13 @@ def parse_file(file: InMemoryUploadedFile):
     key = env.get("KEYFORCONVERT")
     print(f"Debug - ConvertAPI key: {key}")  # Debug print
     convertapi.api_credentials = key
-    
+
     # Create temporary directory
     temp_dir = tempfile.mkdtemp()
     try:
         # Use os.path.join for platform-independent path handling
         temp_file_path = os.path.join(temp_dir, file.name)
-        
+
         # Write the uploaded file to the temporary location
         with open(temp_file_path, "wb") as temp_file:
             for chunk in file.chunks():
@@ -29,7 +29,7 @@ def parse_file(file: InMemoryUploadedFile):
         result = convertapi.convert('txt', {'File': temp_file_path}, from_format='pdf')
         converted_files = result.save_files(temp_dir)
         converted_txt_path = converted_files[0]
-        
+
         # Read the converted text
         with open(converted_txt_path, 'r', encoding='utf-8') as f:
             extracted_text = f.read()
@@ -43,15 +43,15 @@ def parse_file(file: InMemoryUploadedFile):
             ],
             "max_tokens": 1000
         }
-        perp_key = env.get('KEYFORPERP') 
+        perp_key = env.get('KEYFORPERP')
         headers = {
-            "Authorization": f"Bearer {perp_key}", 
+            "Authorization": f"Bearer {perp_key}",
             "Content-Type": "application/json"
         }
 
         response = requests.post(url, json=payload, headers=headers)
         return response.json()
-    
+
     finally:
         # Clean up temporary files in a try-except block to handle any permission issues
         try:
