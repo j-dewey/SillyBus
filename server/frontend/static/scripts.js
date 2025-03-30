@@ -1,12 +1,22 @@
 function uploadFiles() {
+    console.log("UPLOADING FILES")
     const input = document.getElementById("pdfInput");
     const fileContainer = document.querySelector('.file-name');
     const fileItems = fileContainer.querySelectorAll('.file-item');
+    console.log("Found all stuuf")
+    // Check if user is not signed in by looking for the sign-in message
+    const signInMessage = document.getElementById('requestForSignIn');
+    console.log(signInMessage)
+    if (signInMessage && signInMessage.textContent.includes('please sign in')) {
+        alert("Please sign in with Google before uploading files.");
+        return;
+    }
 
     if (input.files.length === 0) {
         alert("Please select at least one PDF file.");
         return;
     }
+
 
     const formData = new FormData();
 

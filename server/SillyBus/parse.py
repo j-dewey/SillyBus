@@ -11,7 +11,6 @@ load_dotenv()
 
 def parse_file(file: InMemoryUploadedFile):
     key = env.get("KEYFORCONVERT")
-    print(f"Debug - ConvertAPI key: {key}")  # Debug print
     convertapi.api_credentials = key
     
     # Create temporary directory
