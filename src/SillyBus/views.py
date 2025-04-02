@@ -31,7 +31,7 @@ def file_upload(request):
         files: dict[str, InMemoryUploadedFile ] = request.FILES.dict()
         init_service() 
         for name, file in files.items():
-            parsed = parse_file(file) # Asks perplexity to parse file
+            parsed = parse_file(file) # Asks perplexity to parse 
             for resp in parsed:
                 str_content = resp['message']['content']
 
