@@ -29,9 +29,9 @@ def file_upload(request):
         return HttpResponse(status=401)
     if request.method == "POST":
         files: dict[str, InMemoryUploadedFile ] = request.FILES.dict()
-        init_service()
+        init_service() 
         for name, file in files.items():
-            parsed = parse_file(file) # Asks perplexity to parse
+            parsed = parse_file(file) # Asks perplexity to parse file
             for resp in parsed:
                 str_content = resp['message']['content']
 
