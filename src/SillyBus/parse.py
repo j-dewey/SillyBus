@@ -11,8 +11,10 @@ import shutil
 
 load_dotenv()
 
+'''
+    Get all important dates and events from a Syllabus file
+'''
 def parse_file(file: InMemoryUploadedFile) -> list[dict[str, Any]]:
-    print(file)
     key = env.get("KEYFORCONVERT")
     convertapi.api_credentials = key
 

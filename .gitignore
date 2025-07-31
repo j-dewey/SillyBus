@@ -3,3 +3,6 @@ server/SillyBus/__pycache__
 server/SillyBus/__pycache__/*
 server/db.sqlite3
 server/.env
+
+src/SillyBus/__pycache__/*
+src/db.sqlite3

@@ -16,61 +16,75 @@ from .g_calendar import init_service, load_to_calendar
 
 load_dotenv()
 
+''' Index Page '''
 def root(request):
     cntxt = {}
     return TemplateResponse(request, 'index.html', cntxt)
 
+'''
+    Route for uploading a file to Claude
+    @csrf_exempt makes this site vulnerable to cross site scripting
+    security was traded off for production speed, but this should be
+    fixed if ever put online
+'''
 @csrf_exempt
 def file_upload(request):
+    # deny invalid requests
     try:
         session: SessionStore = request.session
         user  = session['user_data']
     except KeyError:
         return HttpResponse(status=401)
-    if request.method == "POST":
-        files: dict[str, InMemoryUploadedFile ] = request.FILES.dict()
-        init_service() 
-        for name, file in files.items():
-            parsed = parse_file(file) # Asks perplexity to parse 
-            for resp in parsed:
-                str_content = resp['message']['content']
+    if request.method != "POST":
+        return HttpResponse(status=400)
 
-                # Try to find the actual JSON boundaries
-                try:
-                    start_idx = str_content.find('{')
-                    end_idx = str_content.rfind('}') + 1
-                    json_content = str_content[start_idx:end_idx]
+    files: dict[str, InMemoryUploadedFile ] = request.FILES.dict()
+    init_service()
+    for name, file in files.items():
+        parsed = parse_file(file) # Asks perplexity to parse
+        for resp in parsed:
+            str_content = resp['message']['content']
 
-                    # Debug the JSON content
-                    lines = json_content.split('\n')
+            # Try to find the actual JSON boundaries
+            try:
+                start_idx = str_content.find('{')
+                end_idx = str_content.rfind('}') + 1
+                json_content = str_content[start_idx:end_idx]
 
-                    if len(json_content) > 741:
-                        context_start = max(0, 741 - 20)
-                        context_end = min(len(json_content), 741 + 20)
+                # Debug the JSON content
+                lines = json_content.split('\n')
+
+                if len(json_content) > 741:
+                    context_start = max(0, 741 - 20)
+                    context_end = min(len(json_content), 741 + 20)
 
 
-                    # Try to clean the JSON before parsing
-                    cleaned_json = json_content.replace('\n', ' ').replace('\r', '')
-                    content = json.loads(cleaned_json)
-                    try:
-                        load_to_calendar(content, user)
-                    except Exception as e:
-                        pass
+                # Try to clean the JSON before parsing
+                cleaned_json = json_content.replace('\n', ' ').replace('\r', '')
+                content = json.loads(cleaned_json)
+                load_to_calendar(content, user)
 
-                except json.JSONDecodeError as e:
-                    print(f"\nJSON Error: {e}")
-                    print(f"Error position: {e.pos}")
-                    print(f"Error line: {e.lineno}")
-                    print(f"Error column: {e.colno}")
-                    raise
+            except json.JSONDecodeError as e:
+                print(f"\nJSON Error: {e}")
+                print(f"Error position: {e.pos}")
+                print(f"Error line: {e.lineno}")
+                print(f"Error column: {e.colno}")
+                raise
 
     return HttpResponse(status=204)
 
-
+'''
+    Swap to sign in page
+    see file_upload for @csrf_exempt
+'''
 @csrf_exempt
 def sign_in(request):
     return render(request, 'sign_in.html')
 
+'''
+    Finalize auth
+    see file_upload for @csrf_exempt
+'''
 @csrf_exempt
 def auth_receiver(request):
     """
@@ -90,6 +104,9 @@ def auth_receiver(request):
     request.session['user_data'] = user_data
     return redirect('/')
 
+'''
+    Sign out
+'''
 def sign_out(request):
     del request.session['user_data']
     return redirect('sign_in')
